@@ -47,6 +47,10 @@ var urlConversions = []struct {
 		"https://xfoo.com/myqueue.somewhere.com/v1/task/tsdtwe34tgs%2ff5yh?k=v%20m",
 		"https://myqueue.somewhere.com/v1/task/tsdtwe34tgs%2ff5yh?k=v%20m",
 	},
+	{
+		"https://xfoo.com/api/queue/x/y/z",
+		"https://queue.taskcluster.net/x/y/z",
+	},
 }
 
 func TestConvertPathForQueue(t *testing.T) {

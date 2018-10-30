@@ -19,6 +19,22 @@ func NewServices() Services {
 
 var hostnamePattern = regexp.MustCompile(`^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9])$`)
 
+func splitPath(rawPath string) (string, string) {
+	// First part of the path is the service name.
+	i := strings.IndexByte(rawPath, '/')
+	if i == -1 {
+		i = len(rawPath)
+	}
+	service := rawPath[:i]
+	path := rawPath[i:]
+
+	// Remove slash from start of path
+	if len(path) > 0 && path[0] == '/' {
+		path = path[1:]
+	}
+	return service, path
+}
+
 // ConvertPath converts a url for the proxy server into a url for the proper taskcluster
 // service.
 //
@@ -34,17 +50,10 @@ func (s *Services) ConvertPath(u *url.URL) (*url.URL, error) {
 		rawPath = rawPath[1:]
 	}
 
-	// First part of the path is the service name.
-	i := strings.IndexByte(rawPath, '/')
-	if i == -1 {
-		i = len(rawPath)
-	}
-	service := rawPath[:i]
-	path := rawPath[i:]
+	service, path := splitPath(rawPath)
 
-	// Remove slash from start of path
-	if len(path) > 0 && path[0] == '/' {
-		path = path[1:]
+	if service == "api" {
+		service, path = splitPath(path)
 	}
 
 	// If service not a valid hostname return error
