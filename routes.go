@@ -107,6 +107,7 @@ func (routes *Routes) setHeaders(res http.ResponseWriter) {
 	headersToSend := res.Header()
 	headersToSend.Set("X-Taskcluster-Proxy-Version", version)
 	headersToSend.Set("X-Taskcluster-Proxy-Revision", revision)
+	headersToSend.Set("X-Taskcluster-Proxy-Root-Url", routes.RouteURL)
 	routes.lock.RLock()
 	defer routes.lock.RUnlock()
 	cert, err := routes.Credentials.Cert()

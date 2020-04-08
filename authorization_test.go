@@ -63,6 +63,7 @@ func testWithPermCreds(t *testing.T, test IntegrationTest, expectedStatusCode in
 		map[string]string{
 			"X-Taskcluster-Proxy-Version":       version,
 			"X-Taskcluster-Proxy-Revision":      revision,
+			"X-Taskcluster-Proxy-Root-Url":      testRouteUrl,
 			"X-Taskcluster-Proxy-Perm-ClientId": permCredentials.ClientID,
 			// N.B. the http library does not distinguish between header entries
 			// that have an empty "" value, and non-existing entries
@@ -96,6 +97,7 @@ func testWithTempCreds(t *testing.T, test IntegrationTest, expectedStatusCode in
 		map[string]string{
 			"X-Taskcluster-Proxy-Version":       version,
 			"X-Taskcluster-Proxy-Revision":      revision,
+			"X-Taskcluster-Proxy-Root-Url":      testRouteUrl,
 			"X-Taskcluster-Proxy-Temp-ClientId": tempCredsClientID,
 			"X-Taskcluster-Proxy-Temp-Scopes":   tempScopesJSON,
 			// N.B. the http library does not distinguish between header entries
